@@ -1,3 +1,11 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Saídas locais reproduzíveis e cópias de trabalho
+/backups/
+/tests/*.log
+/tests/*.err
+/tests/*.png
+/tests/*.png.import
+*.blend[0-9]*

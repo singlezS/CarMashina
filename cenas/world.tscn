@@ -1,0 +1,579 @@
+[gd_scene format=3 uid="uid://b2cds0unkeqse"]
+
+[ext_resource type="Script" uid="uid://dbhtsmd5s7elx" path="res://scripts/drive_world.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://duv1ljauxksnf" path="res://cenas/carro.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://cenas/marcador_missao.tscn" id="3_missao"]
+[ext_resource type="PackedScene" path="res://cenas/hud.tscn" id="4_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.18, 0.35, 0.53, 1)
+sky_horizon_color = Color(0.76, 0.83, 0.86, 1)
+ground_bottom_color = Color(0.19, 0.23, 0.26, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.73, 0.83, 1, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_Asfalto"]
+albedo_color = Color(0.203922, 0.235294, 0.258824, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_Asfalto"]
+material = SubResource("Pista_Mat_Asfalto")
+size = Vector3(240, 0.5, 240)
+
+[sub_resource type="BoxShape3D" id="Pista_Shape_Asfalto"]
+size = Vector3(240, 0.5, 240)
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_GradeLongitudinal"]
+albedo_color = Color(0.317647, 0.34902, 0.372549, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_GradeLongitudinal"]
+material = SubResource("Pista_Mat_GradeLongitudinal")
+size = Vector3(0.06, 0.01, 220)
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_GradeTransversal"]
+albedo_color = Color(0.317647, 0.34902, 0.372549, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_GradeTransversal"]
+material = SubResource("Pista_Mat_GradeTransversal")
+size = Vector3(220, 0.01, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_Faixa"]
+albedo_color = Color(0.901961, 0.839216, 0.647059, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_Faixa"]
+material = SubResource("Pista_Mat_Faixa")
+size = Vector3(0.15, 0.015, 3)
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_Obstaculo"]
+albedo_color = Color(0.878431, 0.580392, 0.262745, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_Obstaculo"]
+material = SubResource("Pista_Mat_Obstaculo")
+size = Vector3(0.5, 0.65, 0.5)
+
+[sub_resource type="BoxShape3D" id="Pista_Shape_Obstaculo"]
+size = Vector3(0.5, 0.65, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Pista_Mat_Rampa"]
+albedo_color = Color(0.411765, 0.482353, 0.521569, 1)
+roughness = 0.93
+
+[sub_resource type="BoxMesh" id="Pista_Mesh_Rampa"]
+material = SubResource("Pista_Mat_Rampa")
+size = Vector3(4, 0.3, 9)
+
+[sub_resource type="BoxShape3D" id="Pista_Shape_Rampa"]
+size = Vector3(4, 0.3, 9)
+
+[node name="World" type="Node3D" unique_id=173274427]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1785784098]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=790959014]
+transform = Transform3D(0.8480481, 0.3938068, -0.35458517, 0, 0.66913056, 0.74314487, 0.52991927, -0.63022256, 0.5674549, 0, 0, 0)
+light_color = Color(1, 0.92, 0.82, 1)
+light_energy = 1.3
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+
+[node name="Carro" parent="." unique_id=2135774494 instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 2)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1088703204]
+current = true
+fov = 62.0
+near = 0.2
+far = 350.0
+
+[node name="Pista" type="Node3D" parent="." unique_id=1926264348]
+
+[node name="Asfalto" type="StaticBody3D" parent="Pista" unique_id=2050599732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Asfalto" unique_id=1052360046]
+mesh = SubResource("Pista_Mesh_Asfalto")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Asfalto" unique_id=366404178]
+shape = SubResource("Pista_Shape_Asfalto")
+
+[node name="GradeLongitudinal1" type="Node3D" parent="Pista" unique_id=1330949291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -110, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal1" unique_id=87538028]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal1" type="Node3D" parent="Pista" unique_id=1750021900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -110)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal1" unique_id=640714261]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal2" type="Node3D" parent="Pista" unique_id=1481898059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal2" unique_id=496799014]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal2" type="Node3D" parent="Pista" unique_id=983124658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -100)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal2" unique_id=2119913822]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal3" type="Node3D" parent="Pista" unique_id=1597900202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal3" unique_id=1011318333]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal3" type="Node3D" parent="Pista" unique_id=424041425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -90)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal3" unique_id=1699122526]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal4" type="Node3D" parent="Pista" unique_id=1415912480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal4" unique_id=1914915134]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal4" type="Node3D" parent="Pista" unique_id=1869737876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -80)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal4" unique_id=1915807539]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal5" type="Node3D" parent="Pista" unique_id=53741914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal5" unique_id=959527384]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal5" type="Node3D" parent="Pista" unique_id=995259060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -70)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal5" unique_id=1579850374]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal6" type="Node3D" parent="Pista" unique_id=1224277331]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal6" unique_id=1323438903]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal6" type="Node3D" parent="Pista" unique_id=695997913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -60)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal6" unique_id=704130029]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal7" type="Node3D" parent="Pista" unique_id=110890531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal7" unique_id=1073743050]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal7" type="Node3D" parent="Pista" unique_id=31654477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -50)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal7" unique_id=1464237700]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal8" type="Node3D" parent="Pista" unique_id=2089397812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal8" unique_id=2045328311]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal8" type="Node3D" parent="Pista" unique_id=476699064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -40)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal8" unique_id=166109982]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal9" type="Node3D" parent="Pista" unique_id=806382234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal9" unique_id=1605183086]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal9" type="Node3D" parent="Pista" unique_id=139873782]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -30)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal9" unique_id=15579309]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal10" type="Node3D" parent="Pista" unique_id=1834745540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal10" unique_id=1609160711]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal10" type="Node3D" parent="Pista" unique_id=180429130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -20)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal10" unique_id=1392851674]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal11" type="Node3D" parent="Pista" unique_id=238040021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal11" unique_id=1764449589]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal11" type="Node3D" parent="Pista" unique_id=1993845138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -10)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal11" unique_id=355716596]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal12" type="Node3D" parent="Pista" unique_id=1080413568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal12" unique_id=973722250]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal12" type="Node3D" parent="Pista" unique_id=1007996678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal12" unique_id=1810951300]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal13" type="Node3D" parent="Pista" unique_id=750902971]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal13" unique_id=308122770]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal13" type="Node3D" parent="Pista" unique_id=1844085588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 10)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal13" unique_id=1309218824]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal14" type="Node3D" parent="Pista" unique_id=697995873]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal14" unique_id=2122862660]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal14" type="Node3D" parent="Pista" unique_id=1704284766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 20)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal14" unique_id=2113655034]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal15" type="Node3D" parent="Pista" unique_id=1047226175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal15" unique_id=917549767]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal15" type="Node3D" parent="Pista" unique_id=809142709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 30)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal15" unique_id=2061091023]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal16" type="Node3D" parent="Pista" unique_id=902958129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal16" unique_id=1548890869]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal16" type="Node3D" parent="Pista" unique_id=1966575566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 40)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal16" unique_id=893270454]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal17" type="Node3D" parent="Pista" unique_id=398006247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal17" unique_id=461319204]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal17" type="Node3D" parent="Pista" unique_id=987226978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 50)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal17" unique_id=344913257]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal18" type="Node3D" parent="Pista" unique_id=33958668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal18" unique_id=1465853531]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal18" type="Node3D" parent="Pista" unique_id=1375066956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 60)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal18" unique_id=1729862228]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal19" type="Node3D" parent="Pista" unique_id=534572244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal19" unique_id=1705579335]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal19" type="Node3D" parent="Pista" unique_id=268761029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 70)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal19" unique_id=1428579081]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal20" type="Node3D" parent="Pista" unique_id=269346615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal20" unique_id=1958158194]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal20" type="Node3D" parent="Pista" unique_id=756469338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 80)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal20" unique_id=118080380]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal21" type="Node3D" parent="Pista" unique_id=1576074922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal21" unique_id=832065916]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal21" type="Node3D" parent="Pista" unique_id=145165776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 90)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal21" unique_id=1478625672]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal22" type="Node3D" parent="Pista" unique_id=165407148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal22" unique_id=257299196]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal22" type="Node3D" parent="Pista" unique_id=261732610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 100)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal22" unique_id=1289807216]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="GradeLongitudinal23" type="Node3D" parent="Pista" unique_id=1337712717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 0.025, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeLongitudinal23" unique_id=1076590248]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeLongitudinal")
+
+[node name="GradeTransversal23" type="Node3D" parent="Pista" unique_id=2088098524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 110)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/GradeTransversal23" unique_id=815195812]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_GradeTransversal")
+
+[node name="Faixa1" type="Node3D" parent="Pista" unique_id=242785523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -8)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa1" unique_id=2065263952]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa2" type="Node3D" parent="Pista" unique_id=1201053739]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -15)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa2" unique_id=754675801]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa3" type="Node3D" parent="Pista" unique_id=477804225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -22)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa3" unique_id=115799178]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa4" type="Node3D" parent="Pista" unique_id=639924552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -29)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa4" unique_id=750357320]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa5" type="Node3D" parent="Pista" unique_id=2007199208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -36)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa5" unique_id=1974758292]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa6" type="Node3D" parent="Pista" unique_id=145820647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -43)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa6" unique_id=939511846]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa7" type="Node3D" parent="Pista" unique_id=1641661512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -50)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa7" unique_id=2076152521]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa8" type="Node3D" parent="Pista" unique_id=529157972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -57)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa8" unique_id=1145014297]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa9" type="Node3D" parent="Pista" unique_id=380418875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -64)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa9" unique_id=1654505514]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa10" type="Node3D" parent="Pista" unique_id=1378809274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -71)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa10" unique_id=915633259]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa11" type="Node3D" parent="Pista" unique_id=843330291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -78)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa11" unique_id=1102003925]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Faixa12" type="Node3D" parent="Pista" unique_id=1327637927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -85)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Faixa12" unique_id=1401907728]
+cast_shadow = 0
+mesh = SubResource("Pista_Mesh_Faixa")
+
+[node name="Obstaculo2" type="StaticBody3D" parent="Pista" unique_id=1287517823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.325, -25)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Obstaculo2" unique_id=1027610592]
+mesh = SubResource("Pista_Mesh_Obstaculo")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Obstaculo2" unique_id=57859458]
+shape = SubResource("Pista_Shape_Obstaculo")
+
+[node name="Obstaculo3" type="StaticBody3D" parent="Pista" unique_id=632365305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.325, -35)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Obstaculo3" unique_id=1911820201]
+mesh = SubResource("Pista_Mesh_Obstaculo")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Obstaculo3" unique_id=1728459819]
+shape = SubResource("Pista_Shape_Obstaculo")
+
+[node name="Obstaculo4" type="StaticBody3D" parent="Pista" unique_id=2080146095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.325, -45)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Obstaculo4" unique_id=1833020059]
+mesh = SubResource("Pista_Mesh_Obstaculo")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Obstaculo4" unique_id=1918864655]
+shape = SubResource("Pista_Shape_Obstaculo")
+
+[node name="Obstaculo5" type="StaticBody3D" parent="Pista" unique_id=1527137463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.325, -55)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Obstaculo5" unique_id=1164375058]
+mesh = SubResource("Pista_Mesh_Obstaculo")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Obstaculo5" unique_id=66822131]
+shape = SubResource("Pista_Shape_Obstaculo")
+
+[node name="Obstaculo6" type="StaticBody3D" parent="Pista" unique_id=1514850954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.325, -65)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Obstaculo6" unique_id=25407648]
+mesh = SubResource("Pista_Mesh_Obstaculo")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Obstaculo6" unique_id=1635649967]
+shape = SubResource("Pista_Shape_Obstaculo")
+
+[node name="Rampa" type="StaticBody3D" parent="Pista" unique_id=1256462793]
+transform = Transform3D(1, 0, 0, 0, 0.990216, -0.13954312, 0, 0.13954312, 0.990216, 14, 0.65, -28)
+
+[node name="Visual" type="MeshInstance3D" parent="Pista/Rampa" unique_id=482911328]
+mesh = SubResource("Pista_Mesh_Rampa")
+
+[node name="Colisao" type="CollisionShape3D" parent="Pista/Rampa" unique_id=174587224]
+shape = SubResource("Pista_Shape_Rampa")
+
+[node name="Marcadores" type="Node3D" parent="." unique_id=418451923]
+
+[node name="MARK" parent="Marcadores" unique_id=399680192 instance=ExtResource("3_missao")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.577129, 0, 0)
+
+[node name="HUD" parent="." unique_id=964645236 instance=ExtResource("4_hud")]

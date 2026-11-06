@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[sub_resource type="Shader" id="Holograma"]
+code = "shader_type spatial;
+render_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;
+varying float altura;
+varying float base;
+void vertex() {
+    altura = clamp(VERTEX.y / 2.7 + 0.5, 0.0, 1.0);
+    base = step(0.5, -NORMAL.y);
+}
+void fragment() {
+    float pulso = 0.94 + 0.06 * sin(TIME * 2.2);
+    ALBEDO = vec3(1.0, 0.008, 0.003);
+    ALPHA = mix(0.39 * pow(1.0 - altura, 1.6), 0.24, base) * pulso;
+}"
+
+[sub_resource type="ShaderMaterial" id="Vermelho"]
+shader = SubResource("Holograma")
+
+[sub_resource type="CylinderMesh" id="Coluna"]
+material = SubResource("Vermelho")
+top_radius = 2.1
+bottom_radius = 2.1
+height = 2.7
+radial_segments = 48
+rings = 1
+cap_top = false
+
+[sub_resource type="CylinderShape3D" id="Volume"]
+radius = 2.1
+height = 2.7
+
+[node name="MarcadorMissao" type="Area3D" groups=["marcadores_missao"]]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Holograma" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.40, 0)
+mesh = SubResource("Coluna")
+cast_shadow = 0
+
+[node name="AreaDeEntrada" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.40, 0)
+shape = SubResource("Volume")
