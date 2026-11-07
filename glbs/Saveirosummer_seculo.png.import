@@ -2,10 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c37vpg7paafvq"
-path="res://.godot/imported/saveiro_carrocaria_seculo.png-5dff8755253b98653073d546718e4775.ctex"
+uid="uid://cuu8brm3o5sc3"
+path.s3tc="res://.godot/imported/Saveirosummer_seculo.png-40e5a1c9e96ee61f10fb7222b7493297.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "6e8429a463b65e7fec5ca5c11a0914b1"
@@ -13,12 +14,12 @@ generator_parameters={
 
 [deps]
 
-source_file="res://glbs/saveiro_carrocaria_seculo.png"
-dest_files=["res://.godot/imported/saveiro_carrocaria_seculo.png-5dff8755253b98653073d546718e4775.ctex"]
+source_file="res://glbs/Saveirosummer_seculo.png"
+dest_files=["res://.godot/imported/Saveirosummer_seculo.png-40e5a1c9e96ee61f10fb7222b7493297.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

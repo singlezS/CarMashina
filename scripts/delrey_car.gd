@@ -1,5 +1,6 @@
 extends RigidBody3D
 ## SI units, -Z forward. Arcade street setup with assisted, contact-bound drift.
+@export var modelo: PackedScene
 @export_group("Chassi")
 @export var vehicle_mass := 980.0
 @export var wheelbase := 2.588
@@ -40,9 +41,12 @@ var reset_pending := false
 var effects_epoch := 0
 var spawn_transform := Transform3D.IDENTITY
 var wheels: Array[Dictionary] = []
-@onready var visual: Node3D = $Visual
+var visual: Node3D
 
 func _ready() -> void:
+	visual = modelo.instantiate()
+	visual.name = "Visual"
+	add_child(visual)
 	mass = vehicle_mass
 	center_of_mass_mode = CENTER_OF_MASS_MODE_CUSTOM
 	center_of_mass = Vector3(0, -0.18, -0.08)

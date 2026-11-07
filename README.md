@@ -1,14 +1,19 @@
-# CarMashina — Del Rey
+# CarMashina
 
 O projeto está organizado nas cenas abaixo.
 
-- **cenas/carro.tscn**: Del Rey, modelo, rodas, colisões e física. Arraste esta cena para um mundo com chão que tenha colisão na camada 1. Comece com o carro cerca de 1,2 m acima do chão.
-- **cenas/world.tscn**: mundo principal, com o carro, pista, chão, marcações, seis obstáculos, rampa, iluminação, câmera e velocímetro. Pressione F5 para jogar.
+- **cenas/seletor_carro.tscn** abre com F5. Escolha o carro na lista, confira a prévia em 3D e pressione **Ir para a pista**.
+- **cenas/carro.tscn** contém as rodas, colisões e física compartilhadas. O modelo padrão é o Del Rey. Arraste esta cena para um mundo com chão que tenha colisão na camada 1. Comece com o carro cerca de 1,2 m acima do chão.
+- **cenas/world.tscn**: mundo principal, com o carro, pista, chão, marcações, seis obstáculos, rampa, iluminação, câmera e velocímetro. F6 com esta cena aberta inicia a pista diretamente com o Del Rey.
 
 - **cenas/marcador_missao.tscn** contém o cilindro vermelho e a área que detecta o carro. Para adicionar outro, arraste a cena para o nó Marcadores dentro de world.tscn e posicione sua origem no chão. Cada entrada vale R$ 1. Sair e voltar conta de novo.
 - **cenas/hud.tscn** reúne o título, o velocímetro, o saldo da rodada e o aviso +1 REAL. O saldo começa em zero ao abrir o mundo.
 
 Para editar a pista, abra world.tscn e expanda o nó **Pista**. Os objetos pertencem diretamente ao mundo e aparecem no editor. A câmera e o velocímetro ficam no mundo; não são parte do carro.
+
+## Modelos de carro
+
+As cenas em cenas/modelos/ contêm apenas o visual. O nome do nó raiz aparece no seletor e no painel da pista. Para incluir outro carro, crie uma cena visual com quatro rodas na ordem dianteira esquerda, dianteira direita, traseira esquerda e traseira direita. Use scripts/visual_carro.gd como base e adicione a cena à lista **Modelos** do nó raiz de seletor_carro.tscn no Inspetor. A Saveiro usa escala uniforme para atingir o comprimento de 4,555 m do Del Rey.
 
 ## Controles
 
@@ -23,6 +28,10 @@ W acelera; S freia e depois engata ré; A/D viram; Espaço aciona o freio de mã
 O GLB e as texturas em glbs/ são os arquivos originais. Massa de 980 kg, raio de pneu de 0,311 m e entre-eixos de 2,588 m são parâmetros de jogo ajustáveis, não uma reprodução certificada de um ano/motor específico. A suspensão usa raios; colisões sólidas principais são do chassi/cabine.
 
 ## Validação
+
+O teste do seletor abre o menu e inicia a pista com cada modelo. No Godot 4.7.2 os dois mediram 4,554902 m, assentaram as quatro rodas no chão e receberam R$ 1 ao cruzar o marcador. As suítes de condução, drift, efeitos e marcador também passaram. A condução foi verificada por testes automáticos.
+
+    godot --headless --path . --script res://tests/seletor_carro_test.gd --fixed-fps 120
 
 Godot 4.7.2, Jolt. Testes de repouso, suspensão, aceleração, frenagem, ré, curvas, Ackermann, freio de mão, reposicionamento, inclinação, parede e tração no ar. Histórico dos testes a 60 e 120 Hz em tests/physics-60.log e tests/physics-120.log. Não houve avaliação manual prolongada da condução.
 

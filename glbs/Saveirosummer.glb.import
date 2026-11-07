@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b8hs6r26nq10e"
-path="res://.godot/imported/saveiro_carrocaria.glb-6bc88019bf6c1920e90d8032770d1569.scn"
+uid="uid://c3lw3fjg50am5"
+path="res://.godot/imported/Saveirosummer.glb-7cdcf5b56e3b40a7d62a3ad71488f86f.scn"
 
 [deps]
 
-source_file="res://glbs/saveiro_carrocaria.glb"
-dest_files=["res://.godot/imported/saveiro_carrocaria.glb-6bc88019bf6c1920e90d8032770d1569.scn"]
+source_file="res://glbs/Saveirosummer.glb"
+dest_files=["res://.godot/imported/Saveirosummer.glb-7cdcf5b56e3b40a7d62a3ad71488f86f.scn"]
 
 [params]
 

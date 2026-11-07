@@ -19,8 +19,10 @@ func testar() -> void:
 	root.add_child(mundo)
 	var carro: RigidBody3D = mundo.get_node("Carro")
 	var hud: CanvasLayer = mundo.get_node("HUD")
-	var primeiro: Area3D = mundo.get_node("Marcadores/RetaInicial")
+	var primeiro: Area3D = mundo.get_node("Marcadores").get_child(0)
 	carro.input_enabled = false
+	carro.spawn_transform.origin = primeiro.global_position + Vector3(0, 1.2, 16)
+	carro.reset_car()
 	await passos(120)
 	conferir(hud.saldo == 0, "Inicia com saldo zero")
 

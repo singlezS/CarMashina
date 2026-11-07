@@ -3,6 +3,9 @@ extends CanvasLayer
 var saldo := 0
 var aviso: Tween
 
+func mostrar_modelo(nome: String) -> void:
+	$Painel/Leituras/Titulo.text = $Painel/Leituras/Titulo.text.replace("{carro}", nome.to_upper())
+
 func mostrar_velocidade(kmh: float) -> void:
 	%Velocidade.text = "%03d km/h" % roundi(kmh)
 

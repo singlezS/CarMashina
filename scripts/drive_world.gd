@@ -5,6 +5,7 @@ extends Node3D
 var camera_heading := Vector3.BACK
 
 func _ready() -> void:
+	hud.mostrar_modelo(car.modelo.get_state().get_node_name(0))
 	for marcador in get_tree().get_nodes_in_group("marcadores_missao"):
 		if is_ancestor_of(marcador):
 			marcador.body_entered.connect(_ao_entrar_no_marcador)

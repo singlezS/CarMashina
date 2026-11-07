@@ -154,16 +154,21 @@ func _physics_process(delta: float) -> void:
 		var w: Dictionary = car.wheels[i]
 		var strength: float = w.get("skid", 0.0)
 		var emitting: bool = effects_enabled and nearby and w.grounded and w.load > 100.0 and strength > 0.08 and car.speed_kmh > 10.8
+		var contact: Vector3 = w.get("contact", Vector3.ZERO)
+		if emitting:
+			var offset: Vector3 = car.visual.wheel_offsets[i]
+			offset.y = 0.0
+			contact += (car.global_basis * offset).slide(w.normal)
 		if i >= 2:
 			var p := smoke[i - 2]
 			p.emitting = emitting and smoke_enabled
 			if p.emitting:
-				p.global_position = w.contact + w.normal * 0.14
+				p.global_position = contact + w.normal * 0.14
 				p.color = Color(1, 1, 1, clampf(strength, 0.4, 1.0))
 		if not emitting or not w.get("markable", false):
 			_linked[i] = false
 			continue
-		var point: Vector3 = w.contact + w.normal * 0.012
+		var point: Vector3 = contact + w.normal * 0.012
 		if _linked[i] and _surfaces[i] == w.surface_id:
 			var distance := point.distance_to(_previous[i])
 			if distance < 0.18:
@@ -212,4 +217,3 @@ func _add_mark(from: Vector3, to: Vector3, normal: Vector3, strength: float) -> 
 	pool.set_instance_custom_data(_slot, Color(_time, strength, 0, 0))
 	_slot = (_slot + 1) % _capacity
 	total_segments_created += 1
-

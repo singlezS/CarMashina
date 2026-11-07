@@ -1,0 +1,109 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/seletor_carro.gd" id="menu"]
+[ext_resource type="PackedScene" path="res://cenas/modelos/del_rey.tscn" id="delrey"]
+[ext_resource type="PackedScene" path="res://cenas/modelos/saveiro.tscn" id="saveiro"]
+
+[sub_resource type="Environment" id="Estudio"]
+background_mode = 1
+background_color = Color(0.16, 0.21, 0.26, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.89, 0.93, 1, 1)
+ambient_light_energy = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Piso"]
+albedo_color = Color(0.19, 0.24, 0.28, 1)
+roughness = 0.92
+
+[sub_resource type="CylinderMesh" id="Base"]
+material = SubResource("Piso")
+top_radius = 3.2
+bottom_radius = 3.2
+height = 0.12
+radial_segments = 64
+
+[sub_resource type="StyleBoxFlat" id="Painel"]
+bg_color = Color(0.055, 0.08, 0.105, 1)
+content_margin_left = 26.0
+content_margin_top = 18.0
+content_margin_right = 26.0
+content_margin_bottom = 18.0
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="Acao"]
+bg_color = Color(0.93, 0.63, 0.29, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+
+[node name="SeletorCarro" type="Node3D"]
+script = ExtResource("menu")
+modelos = Array[PackedScene]([ExtResource("delrey"), ExtResource("saveiro")])
+
+[node name="Ambiente" type="WorldEnvironment" parent="."]
+environment = SubResource("Estudio")
+
+[node name="Luz" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-54, 24, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 14.0
+light_energy = 1.45
+
+[node name="Recorte" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-26, -155, 0)
+light_color = Color(0.78, 0.89, 1, 1)
+light_energy = 0.8
+
+[node name="Plataforma" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.06, 0)
+mesh = SubResource("Base")
+
+[node name="Expositor" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0.571, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(-4.75, 2.3, -5.8)
+rotation_degrees = Vector3(-16, -140.7, 0)
+fov = 36.0
+current = true
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Painel" type="PanelContainer" parent="Interface"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -302.0
+offset_top = -120.0
+offset_right = 302.0
+offset_bottom = -28.0
+theme_override_styles/panel = SubResource("Painel")
+
+[node name="Linha" type="HBoxContainer" parent="Interface/Painel"]
+theme_override_constants/separation = 20
+
+[node name="Escolha" type="VBoxContainer" parent="Interface/Painel/Linha"]
+size_flags_horizontal = 3
+
+[node name="Titulo" type="Label" parent="Interface/Painel/Linha/Escolha"]
+text = "Escolha seu carro"
+theme_override_font_sizes/font_size = 18
+
+[node name="Modelo" type="OptionButton" parent="Interface/Painel/Linha/Escolha"]
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 23
+
+[node name="Jogar" type="Button" parent="Interface/Painel/Linha"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(168, 48)
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("Acao")
+theme_override_colors/font_color = Color(0.08, 0.07, 0.05, 1)
+theme_override_font_sizes/font_size = 20
+text = "Ir para a pista"

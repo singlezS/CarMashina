@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="CarMashina"
-run/main_scene="res://cenas/world.tscn"
+run/main_scene="res://cenas/seletor_carro.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://glbs/icon.svg"
 

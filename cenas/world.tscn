@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dbhtsmd5s7elx" path="res://scripts/drive_world.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://duv1ljauxksnf" path="res://cenas/carro.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://cenas/marcador_missao.tscn" id="3_missao"]
-[ext_resource type="PackedScene" path="res://cenas/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" uid="uid://gfvh1nlq6wg0" path="res://cenas/hud.tscn" id="4_hud"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
 sky_top_color = Color(0.18, 0.35, 0.53, 1)
@@ -106,6 +106,7 @@ far = 350.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
 [node name="Visual" type="MeshInstance3D" parent="Pista/Asfalto" unique_id=1052360046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.040655136, 0.040678024, -0.008609772)
 mesh = SubResource("Pista_Mesh_Asfalto")
 
 [node name="Colisao" type="CollisionShape3D" parent="Pista/Asfalto" unique_id=366404178]
@@ -573,7 +574,7 @@ shape = SubResource("Pista_Shape_Rampa")
 
 [node name="Marcadores" type="Node3D" parent="." unique_id=418451923]
 
-[node name="MARK" parent="Marcadores" unique_id=399680192 instance=ExtResource("3_missao")]
+[node name="Marcador1" parent="Marcadores" unique_id=399680192 instance=ExtResource("3_missao")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.577129, 0, 0)
 
 [node name="HUD" parent="." unique_id=964645236 instance=ExtResource("4_hud")]
