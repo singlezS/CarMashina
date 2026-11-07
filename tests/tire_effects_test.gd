@@ -14,6 +14,8 @@ func frames(count: int) -> void:
 		await physics_frame
 func run() -> void:
 	world = load("res://cenas/world.tscn").instantiate()
+	if "--saveiro" in OS.get_cmdline_user_args():
+		world.get_node("Carro").modelo = preload("res://cenas/modelos/saveiro.tscn")
 	root.add_child(world)
 	car = world.car
 	car.input_enabled = false
@@ -37,10 +39,25 @@ func run() -> void:
 		world.set_process(false)
 		world.camera.position = car.global_position + car.global_basis.z * 9 + Vector3.UP * 5
 		world.camera.look_at(car.global_position + Vector3.UP * 0.2)
+		paused = true
 		await process_frame
 		await RenderingServer.frame_post_draw
 		var output := "res://tests/drift-effects-compat.png" if "--compat" in OS.get_cmdline_user_args() else "res://tests/drift-effects.png"
-		root.get_texture().get_image().save_png(output)
+		var com_marcas := root.get_texture().get_image()
+		com_marcas.save_png(output)
+		fx.marks.hide()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var sem_marcas := root.get_texture().get_image()
+		var pixels_escurecidos := 0
+		for y in range(0, com_marcas.get_height(), 2):
+			for x in range(0, com_marcas.get_width(), 2):
+				if sem_marcas.get_pixel(x, y).get_luminance() - com_marcas.get_pixel(x, y).get_luminance() > 0.025:
+					pixels_escurecidos += 1
+		print("Amostras de asfalto escurecidas: ", pixels_escurecidos)
+		check(pixels_escurecidos > 80, "Marcas visíveis no quadro renderizado")
+		fx.marks.show()
+		paused = false
 		world.set_process(true)
 		if "--capture-only" in OS.get_cmdline_user_args():
 			quit(0 if failed == 0 else 1)
