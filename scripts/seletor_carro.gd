@@ -22,8 +22,7 @@ func _mostrar(index: int) -> void:
 	previa = modelos[index].instantiate()
 	%Expositor.add_child(previa)
 	for i in range(4):
-		var centro := Vector3(-0.57 if i % 2 == 0 else 0.57, -0.26, -1.294 if i < 2 else 1.294)
-		previa.update_wheel(i, centro, 0, 0)
+		previa.update_wheel(i, previa.centro_previa(i), 0, 0)
 
 func _iniciar() -> void:
 	if %Jogar.disabled:

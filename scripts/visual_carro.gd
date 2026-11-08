@@ -5,6 +5,9 @@ var spinners: Array[Node3D] = []
 var wheel_offsets: Array[Vector3] = []
 var spin_ratios: Array[float] = []
 
+func centro_previa(indice: int) -> Vector3:
+	return Vector3(-0.57 if indice % 2 == 0 else 0.57, -0.26, -1.294 if indice < 2 else 1.294)
+
 # A mesma suspensão anima qualquer modelo. O deslocamento é só visual.
 func add_wheel(tire: MeshInstance3D, offset := Vector3.ZERO, spin_ratio := 1.0) -> void:
 	var pivot := Node3D.new()

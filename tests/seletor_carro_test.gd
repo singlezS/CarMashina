@@ -12,12 +12,13 @@ func conferir(ok: bool, texto: String) -> void:
 
 func testar() -> void:
 	var menu_path: String = ProjectSettings.get_setting("application/run/main_scene")
-	for i in range(2):
+	var nomes := ["Del Rey", "Saveiro", "Celta"]
+	for i in nomes.size():
 		change_scene_to_file(menu_path)
 		await scene_changed
 		var menu := current_scene
 		var lista := menu.get_node("%Modelo") as OptionButton
-		conferir(lista.get_item_text(i) == ["Del Rey", "Saveiro"][i], "Modelo na lista")
+		conferir(lista.get_item_text(i) == nomes[i], "Modelo na lista")
 		lista.select(i)
 		lista.item_selected.emit(i)
 		var nome := lista.get_item_text(i)
@@ -46,7 +47,8 @@ func testar() -> void:
 			bounds = caixa if primeiro else bounds.merge(caixa)
 			primeiro = false
 		print(nome, " comprimento = ", bounds.size.z)
-		conferir(absf(bounds.size.z - 4.554902) < 0.003, "Comprimento da carroceria")
+		var comprimento := 3.878 if nome == "Celta" else 4.554902
+		conferir(absf(bounds.size.z - comprimento) < 0.003, "Comprimento da carroceria")
 		for roda in range(4):
 			var tire: MeshInstance3D = car.visual.spinners[roda].get_child(0)
 			var caixa := tire.global_transform * tire.get_aabb()

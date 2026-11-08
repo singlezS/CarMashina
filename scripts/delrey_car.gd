@@ -47,6 +47,8 @@ func _ready() -> void:
 	visual = modelo.instantiate()
 	visual.name = "Visual"
 	add_child(visual)
+	if visual.has_method("configurar_chassi"):
+		visual.configurar_chassi(self)
 	mass = vehicle_mass
 	center_of_mass_mode = CENTER_OF_MASS_MODE_CUSTOM
 	center_of_mass = Vector3(0, -0.18, -0.08)
